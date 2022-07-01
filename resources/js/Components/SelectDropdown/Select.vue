@@ -1,42 +1,43 @@
 <template>
   <div>
         <Menu>
-            <label id="listbox-label" class="block text-sm font-medium text-gray-700">
-            Assigned to
-            </label>
+            <slot name="label" :label="label">
+                <label  class="block text-sm font-medium text-gray-700" v-if="label">
+                    {{ label }}
+                </label>
+            </slot>
             <div class="mt-1 relative">
-            <Button>
-                <template v-if="form.people">
-                    <span class="flex items-center">
-                        <img
-                            :src="form.people.avatar"
-                            alt=""
-                            class="flex-shrink-0 h-6 w-6 rounded-full"
-                        />
-                        <span class="ml-3 block truncate">{{ form.people.name }}</span>
-                    </span>
-                    <span  class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                        <!-- Heroicon name: solid/selector -->
-                        <svg
-                            class="h-5 w-5 text-gray-400"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                        >
-                            <path
-                            fill-rule="evenodd"
-                            d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
-                            clip-rule="evenodd"
+            <Button :value="selectedItem">
+                <template #default="{value}">
+                    <template v-if="value">
+                        <span class="flex items-center">
+                            <img
+                                :src="value.avatar"
+                                alt=""
+                                class="flex-shrink-0 h-6 w-6 rounded-full"
                             />
-                        </svg>
-                    </span>
+                            <span class="ml-3 block truncate">{{ value.name }}</span>
+                        </span>
+                        <span  class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                            <svg
+                                class="h-5 w-5 text-gray-400"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 20 20"
+                                fill="currentColor"
+                                aria-hidden="true"
+                            >
+                                <path
+                                fill-rule="evenodd"
+                                d="M10 3a1 1 0 01.707.293l3 3a1 1 0 01-1.414 1.414L10 5.414 7.707 7.707a1 1 0 01-1.414-1.414l3-3A1 1 0 0110 3zm-3.707 9.293a1 1 0 011.414 0L10 14.586l2.293-2.293a1 1 0 011.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z"
+                                clip-rule="evenodd"
+                                />
+                            </svg>
+                        </span>
+                    </template>
                 </template>
-                <template v-else>
-                    Please select item
-                </template>
+                <template #placeholder>Enter people name hala</template>
             </Button>
-            <MenuItems v-slot="{option, selected}" :options="peoples" v-model="form.people">
+            <MenuItems v-slot="{option, selected}" :options="peoples" v-model="selectedItem">
                 <div class="flex items-center">
                     <img
                         :src="option.avatar"
@@ -138,6 +139,12 @@ const peoples = [
   },
 ]
 export default {
+    props: {
+        label: {
+            type: String,
+            default: null
+        }
+    },
     components: {
         Menu,
         Button,
@@ -145,19 +152,10 @@ export default {
     },
     data(){
         return {
-            peoples: peoples,
-            selected: null,
-            value: peoples[2],
-            form: {
-                people: null
-            }
+           peoples: peoples,
+           selectedItem: null
         }
     },
-    methods:{
-        logItem(item){
-            console.log(item)
-        }
-    }
 };
 </script>
 
