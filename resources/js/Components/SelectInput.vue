@@ -51,7 +51,7 @@
                     aria-activedescendant="listbox-option-3"
                 >
                     <li
-                        class=" text-gray-900 select-none relative py-2 pl-3 pr-9 bg-white cursor-pointer"
+                        class=" text-gray-900 select-none relative py-2 pl-3 pr-9 bg-white cursor-pointer border-b border-gray-300 hover:bg-gray-400 last:border-0"
                         role="option"
                         v-for="(option, index) in options" :key="index"
                         @click="setItem(option)"
@@ -110,6 +110,10 @@ export default {
         valueKey: {
             type: String,
             default: 'id'
+        },
+        modelValue: {
+            type: [Number, String],
+            default: null
         }
     },
     components: {
@@ -124,6 +128,16 @@ export default {
         selected(newValue){
             this.$emit('update:modelValue', newValue[this.valueKey]);
         }
+    },
+    mounted(){
+        this.$nextTick(()=>{
+            if(this.modelValue){
+               const item = this.options.find(item=> item[this.valueKey]==this.modelValue)
+                if(item){
+                    this.selected = item;
+                }
+            }
+        })
     },
     methods: {
         open(){

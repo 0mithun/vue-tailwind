@@ -150,9 +150,9 @@ const form = useForm({
                     </span>
                 </template>
                 <template #arrow="{isOpen}">
-                    <span  class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    <!-- <span  class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                     {{ isOpen ? 'close': 'open' }}
-                    </span>
+                    </span> -->
                 </template>
             </SelectInput>
         </div>
