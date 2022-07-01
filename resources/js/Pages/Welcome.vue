@@ -5,6 +5,69 @@ import AvatarInput from '../Components/AvatarInput'
 import Dropdown from '../Components/Dropdown/Dropdown.vue'
 
 import SelectDropdown from '../Components/SelectDropdown/Select'
+import SelectInput from '../Components/SelectInput'
+const peoples = [
+  {
+    id: 1,
+    name: 'Wade Cooper',
+    avatar:
+      'https://images.unsplash.com/photo-1491528323818-fdd1faba62cc?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 2,
+    name: 'Arlene Mccoy',
+    avatar:
+      'https://images.unsplash.com/photo-1550525811-e5869dd03032?ixlib=rb-1.2.1&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 3,
+    name: 'Devon Webb',
+    avatar:
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2.25&w=256&h=256&q=80',
+  },
+  {
+    id: 4,
+    name: 'Tom Cook',
+    avatar:
+      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 5,
+    name: 'Tanya Fox',
+    avatar:
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 6,
+    name: 'Hellen Schmidt',
+    avatar:
+      'https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 7,
+    name: 'Caroline Schultz',
+    avatar:
+      'https://images.unsplash.com/photo-1568409938619-12e139227838?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 8,
+    name: 'Mason Heaney',
+    avatar:
+      'https://images.unsplash.com/photo-1531427186611-ecfd6d936c79?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 9,
+    name: 'Claudie Smitham',
+    avatar:
+      'https://images.unsplash.com/photo-1584486520270-19eca1efcce5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+  {
+    id: 10,
+    name: 'Emil Schaefer',
+    avatar:
+      'https://images.unsplash.com/photo-1561505457-3bcad021f8ee?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+  },
+]
 
 defineProps({
     canLogin: Boolean,
@@ -39,17 +102,59 @@ const form = useForm({
             </template>
         </div>
 
-        <div class="w-96 mx-auto sm:px-6 lg:px-8">
+        <div class="w-4/12 x-auto sm:px-6 lg:px-8">
             <!-- <AvatarInput v-model="form.avatar" defaultSrc="image.jpg" /> -->
             <!-- <DragDrop /> -->
             <!-- <Dropdown /> -->
             {{ form.people }}
-            <SelectDropdown label="Select People" v-model="form.people">
-
-                <template #option="{option}">{{ option}}
-                    <!-- <p>{{ option.name }}</p> -->
+            <!-- <SelectDropdown label="Select People" v-model="form.people"></SelectDropdown> -->
+            <SelectInput :options="peoples" v-model="form.people">
+                <template #placeholder>Enter person name okkk</template>
+                <template #label>What is your choise</template>
+                <template #button="{option}">
+                     <span class="flex items-center">
+                          <img
+                                :src="option.avatar"
+                                alt=""
+                                class="flex-shrink-0 h-6 w-6 rounded-full"
+                            />
+                        <span class="ml-3 block truncate">{{ option.name }}</span>
+                    </span>
                 </template>
-            </SelectDropdown>
+                <template #option="{selected, option}">
+                    <div class="flex items-center">
+                        <img
+                            :src="option.avatar"
+                            alt=""
+                            class="flex-shrink-0 h-6 w-6 rounded-full"
+                        />
+                        <span :class="[selected && selected.id == option.id ? 'font-semibold text-white' : 'font-normal', 'ml-3 block truncate']">{{ option.name }}</span>
+                    </div>
+                    <span
+                        class=" text-white absolute inset-y-0 right-0 flex items-center pr-4"
+                        v-if="selected"
+                    >
+                        <svg
+                        class="h-5 w-5"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                        >
+                        <path
+                            fill-rule="evenodd"
+                            d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+                            clip-rule="evenodd"
+                        />
+                        </svg>
+                    </span>
+                </template>
+                <template #arrow="{isOpen}">
+                    <span  class="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                    {{ isOpen ? 'close': 'open' }}
+                    </span>
+                </template>
+            </SelectInput>
         </div>
     </div>
 </template>
